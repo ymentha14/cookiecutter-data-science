@@ -20,6 +20,7 @@ create_env:
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
+	@python -m ipykernel install --user --name=myenv
 
 ## Make Dataset
 data: requirements
