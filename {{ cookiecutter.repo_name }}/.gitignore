@@ -75,6 +75,9 @@ target/
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/
 
+# personnal install scripts
+.install_scripts/
+
 # exclude data from source control by default
 /data/
 

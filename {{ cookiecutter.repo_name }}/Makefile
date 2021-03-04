@@ -10,6 +10,10 @@ PROFILE = {{ cookiecutter.aws_profile }}
 PROJECT_NAME = {{ cookiecutter.repo_name }}
 PYTHON_INTERPRETER = {{ cookiecutter.python_interpreter }}
 
+
+############## Virtual Env ##############
+
+# Create pypi virtual env
 create_env:
 	@echo ">>> Create environment...\n"
 	@$(PYTHON_INTERPRETER) -m venv env
@@ -19,8 +23,50 @@ create_env:
 ## Install Python Dependencies
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
-	@python -m ipykernel install --user --name=myenv
+	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements.txt
+
+jupy_install:
+	$(PYTHON_INTERPRETER) -m pip install -r requirements/jupy_requirements.txt
+	./.install_scripts/jupy_extensions.sh
+
+
+
+#################################################################################
+# Docker
+#################################################################################
+
+# build the explorer image
+# -f specifies
+docker_build:
+	@docker build \
+    -t <image_name> \
+    -f .
+
+# start a container of the image
+#-w workdir in container
+docker_run: check_config
+	@docker run --rm \
+	-p 8123:5000  \
+	--env-file ~/.dj/config \
+    -v src:/app/src \
+    -w /app \
+	-v <local_volume_dir>:<container_volume_dir> \
+	--user nobody \
+	-it \
+	--entrypoint python3 <image_name> <path_2_script>
+
+# start a interactive shell in the image
+docker_shell:
+	@docker run --rm \
+	-p 8123:5000  \
+	--env-file ~/.dj/config \
+	-w /app \
+	-it /bin/bash
+
+
+#################################################################################
+# Data
+#################################################################################
 
 ## Make Dataset
 data: requirements
@@ -39,11 +85,6 @@ lint:
 ## Test python environment is setup correctly
 test_environment:
 	$(PYTHON_INTERPRETER) test_environment.py
-
-#################################################################################
-# PROJECT RULES                                                                 #
-#################################################################################
-
 
 
 #################################################################################
