@@ -19,14 +19,18 @@ create_env:
 	@$(PYTHON_INTERPRETER) -m venv env
 	@echo ">>> Environment successfully created!\n"
 
-
-## Install Python Dependencies
+## Install Python Dependencies for development
 requirements: test_environment
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements.txt
+	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements_dev.txt
 
+## Install Python Dependencies for production
+requirements_prod:
+	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
+	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements_dev.txt
+
+## Install jupyter lab extensions
 jupy_install:
-	$(PYTHON_INTERPRETER) -m pip install -r requirements/jupy_requirements.txt
 	./.install_scripts/jupy_extensions.sh
 
 
