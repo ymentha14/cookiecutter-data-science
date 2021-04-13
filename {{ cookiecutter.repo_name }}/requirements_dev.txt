@@ -2,3 +2,4 @@ jupyterlab==3.0.7
 jupyterlab_vim
 python-dotenv>=0.5.1
 jedi==0.17.2 # temporary fix for ipython
+-r requirements.txt
