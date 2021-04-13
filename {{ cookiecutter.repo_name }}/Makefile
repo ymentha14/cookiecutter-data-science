@@ -20,14 +20,14 @@ create_env:
 	@echo ">>> Environment successfully created!\n"
 
 ## Install Python Dependencies for development
-requirements: test_environment
+requirements:
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements_dev.txt
+	$(PYTHON_INTERPRETER) -m pip install -r requirements_dev.txt
 
 ## Install Python Dependencies for production
 requirements_prod:
 	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
-	$(PYTHON_INTERPRETER) -m pip install -r requirements/requirements_dev.txt
+	$(PYTHON_INTERPRETER) -m pip install -r requirements.txt
 
 ## Install jupyter lab extensions
 jupy_install:
@@ -84,12 +84,6 @@ clean:
 ## Lint using flake8
 lint:
 	flake8 src
-
-
-## Test python environment is setup correctly
-test_environment:
-	$(PYTHON_INTERPRETER) test_environment.py
-
 
 #################################################################################
 # Self Documenting Commands                                                     #
