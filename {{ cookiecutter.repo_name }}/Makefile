@@ -21,8 +21,9 @@ create_env:
 
 ## Install Python Dependencies for development
 requirements:
-	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel
+	$(PYTHON_INTERPRETER) -m pip install -U pip setuptools wheel ipykernel
 	$(PYTHON_INTERPRETER) -m pip install -r requirements_dev.txt
+	$(PYTHON_INTERPRETER) -m ipykernel install --user --name=$(PROJECT_NAME)_env
 
 ## Install Python Dependencies for production
 requirements_prod:
