@@ -44,6 +44,32 @@ jupy_install:
 docker_build:
 	@docker build -t $(PROJECT_NAME)
 
+# We mount as volume precisely those files that are copied in the dockerfile for development purpose
+run_container_dev:
+	@docker run -it \
+	-e USER=$USER \
+	-e REPO_DIR=/app \
+	-v `pwd`/data:/app/data \
+	-v `pwd`/Makefile:/app/Makefile \
+	-v `pwd`/requirements.txt:/app/requirements.txt \
+	-v `pwd`/src:/app/src \
+	-v `pwd`/scripts:/app/scripts \
+	-v notebooks:/app/notebooks \
+	-p 8080:8501 \
+	$(PROJECT_NAME) \
+	/bin/bash
+
+
+run_container:
+	@docker run \
+	-v `pwd`/data:/app/data \
+	-p 8080:8501 \
+	-d \
+	--rm \
+	$(PROJECT_NAME)
+
+
+
 run_container:
 	@docker run -it \
 	-e USER=$USER \
