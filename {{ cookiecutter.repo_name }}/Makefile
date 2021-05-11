@@ -41,11 +41,19 @@ jupy_install:
 #################################################################################
 
 # build the explorer image
-# -f specifies
 docker_build:
-	@docker build \
-    -t <image_name> \
-    -f .
+	@docker build -t $(PROJECT_NAME)
+
+run_container:
+	@docker run -it \
+	-e USER=$USER \
+	-e REPO_DIR=/app \
+	-w /app \
+	-v `pwd`/data:/app/data \
+	-v `pwd`/src:/app/src \
+	-v `pwd`/notebooks:/app/notebooks \
+	-p 8080:8080 \
+	$(PROJECT_NAME)
 
 # start a container of the image
 #-w workdir in container
